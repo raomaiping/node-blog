@@ -1,30 +1,31 @@
-const { resolve } = require("path");
 const querystring = require("querystring");
 const handleBlogRouter = require("./src/router/blog");
 const handleUserRouter = require("./src/router/user");
 
 // 处理 post data
 const getPostData = (req) => {
-  const promise = new Promise((resolve, reject) => {});
-  if (req.method !== "POST") {
-    resolve({});
-    return;
-  }
-  if (req.headers["content-type"] !== "application/json") {
-    resolve({});
-    return;
-  }
-  let postData = "";
-  req.on("data", (chunk) => {
-    postData += chunk.toString();
-  });
-  req.on("end", () => {
-    if (!postData) {
+  const promise = new Promise((resolve, reject) => {
+    if (req.method !== "POST") {
       resolve({});
       return;
     }
-    resolve(JSON.parse(postData));
+    if (req.headers["content-type"] !== "application/json") {
+      resolve({});
+      return;
+    }
+    let postData = "";
+    req.on("data", (chunk) => {
+      postData += chunk.toString();
+    });
+    req.on("end", () => {
+      if (!postData) {
+        resolve({});
+        return;
+      }
+      resolve(JSON.parse(postData));
+    });
   });
+
   return promise;
 };
 
@@ -36,7 +37,7 @@ const serverHandle = (req, res) => {
   req.path = url.split("?")[0];
 
   //解析 query
-  req.query = querystring.parse(url.split("?")[0]);
+  req.query = querystring.parse(url.split("?")[1]);
 
   // 处理 post data
   getPostData(req).then((postData) => {
