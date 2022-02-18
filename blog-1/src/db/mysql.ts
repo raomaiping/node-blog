@@ -1,6 +1,6 @@
-const mysql = require("mysql");
+import mysql from "mysql";
 
-const { MYSQL_CONF } = require("../conf/db");
+import { MYSQL_CONF } from "../conf/db";
 
 //创建链接对象
 const con = mysql.createConnection(MYSQL_CONF);
@@ -9,9 +9,9 @@ const con = mysql.createConnection(MYSQL_CONF);
 con.connect();
 
 //统一执行 sql的函数
-function exec(sql) {
-  const promise = new Promise((resolve, reject) => {
-    con.query(sql, (err, result) => {
+export function exec<T>(sql: string): Promise<T> {
+  const promise: Promise<T> = new Promise((resolve, reject) => {
+    con.query(sql, (err, result: T) => {
       if (err) {
         reject(err);
         return;
@@ -21,7 +21,3 @@ function exec(sql) {
   });
   return promise;
 }
-
-module.exports = {
-  exec,
-};

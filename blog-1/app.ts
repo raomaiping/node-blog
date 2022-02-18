@@ -1,11 +1,12 @@
 const querystring = require("querystring");
-const handleBlogRouter = require("./src/router/blog");
+import { handleBlogRouter } from "./src/router/blog";
+import { access } from "./src/utils/log";
 const handleUserRouter = require("./src/router/user");
 //获取 cookie 的过期时间
-const getCookieExpires = () => {
-  const d = new Date();
+const getCookieExpires = (): string => {
+  const d: Date = new Date();
   d.setTime(d.getTime() + 24 * 60 * 60 * 1000);
-  return d.toGMTString();
+  return d.toUTCString();
 };
 // session 数据
 const SESSION_DATA = {};
@@ -38,6 +39,13 @@ const getPostData = (req) => {
 };
 
 const serverHandle = (req, res) => {
+  // 记录 access log
+  access(
+    `${req.method} -- ${req.url} -- ${
+      req.headers["user-agent"]
+    } --${Date.now()}`
+  );
+
   //设置返回格式 JSON
   res.setHeader("Content-type", "application/json");
   //获取path

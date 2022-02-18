@@ -1,4 +1,4 @@
-const { login } = require("../controller/user");
+import { login }  from"../controller/user";
 const { SuccessModel, ErrorModel } = require("../model/resModel");
 
 const handleUserRouter = (req, res) => {

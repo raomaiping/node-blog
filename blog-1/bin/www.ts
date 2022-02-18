@@ -1,6 +1,6 @@
 const http = require("http");
 
-const PORT = 8000;
+const PORT:number = 8000;
 
 const serverHandle = require("../app");
 

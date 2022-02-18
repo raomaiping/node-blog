@@ -1,5 +1,8 @@
 class BaseModel {
-  constructor(data, message) {
+  data: any
+  message:string
+  errno:number
+  constructor(data?:any, message?:string) {
     if (typeof data === "string") {
       this.message = data;
       data = null;
@@ -16,21 +19,16 @@ class BaseModel {
   }
 }
 
-class SuccessModel extends BaseModel {
-  constructor(data, message) {
+export class SuccessModel extends BaseModel {
+  constructor(data?:any, message?:string) {
     super(data, message);
     this.errno = 0;
   }
 }
-
-class ErrorModel extends BaseModel {
-  constructor(data, message) {
+export class ErrorModel extends BaseModel {
+  constructor(data?:any, message?:string) {
     super(data, message);
     this.errno = -1;
   }
-}
+} 
 
-module.exports = {
-  SuccessModel,
-  ErrorModel,
-};
