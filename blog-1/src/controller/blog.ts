@@ -1,4 +1,5 @@
 import { exec, escape } from "../db/mysql";
+import xss from "xss";
 import { OkPacket } from "mysql";
 interface BlogData {
   id: number;
@@ -45,9 +46,9 @@ export const newBlog = (blogData: Blog): Promise<{ id: number }> => {
 
   const sql = `
       insert into blogs (title, content, createtime, author)
-      values (${escape(title)}, ${escape(content)}, ${createTime}, ${escape(
-    author
-  )});
+      values (${escape(xss(title))}, ${escape(
+    content
+  )}, ${createTime}, ${escape(author)});
   `;
 
   return exec<OkPacket>(sql).then((insertData) => {

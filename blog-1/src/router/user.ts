@@ -1,5 +1,5 @@
-import { login }  from"../controller/user";
-const { SuccessModel, ErrorModel } = require("../model/resModel");
+import { login } from "../controller/user";
+import { SuccessModel, ErrorModel } from "../model/resModel";
 
 const handleUserRouter = (req, res) => {
   const method = req.method; //GET POST
