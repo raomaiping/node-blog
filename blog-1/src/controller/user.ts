@@ -1,11 +1,16 @@
-import { exec } from"../db/mysql"
+import { exec, escape } from "../db/mysql";
 interface LoginResult {
-  username?:string
-  realname?:string
+  username?: string;
+  realname?: string;
 }
-export const login = (username:string, password:string):Promise<LoginResult> => {
+export const login = (
+  username: string,
+  password: string
+): Promise<LoginResult> => {
   const sql = `
-      select username, realname from users where username='${username}' and password='${password}';
+      select username, realname from users where username=${escape(
+        username
+      )} and password=${escape(password)};
   `;
 
   return exec<LoginResult[]>(sql).then((rows) => {

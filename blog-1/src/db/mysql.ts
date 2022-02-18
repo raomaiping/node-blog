@@ -21,3 +21,5 @@ export function exec<T>(sql: string): Promise<T> {
   });
   return promise;
 }
+
+export const escape = mysql.escape;
